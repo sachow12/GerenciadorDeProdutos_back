@@ -1,13 +1,15 @@
 package elevar.gerenciamento.Model;
-
-import elevar.gerenciamento.Model.Enum.Status;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import elevar.gerenciamento.Deserializer.Deserializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.NoArgsConstructor;
 import java.io.Serializable;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,12 +22,31 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "nome",length = 50)
-    private String nome;
-    @Column(name = "descricao",length = 100)
+    @Column(nullable = false, name = "codigo", length = 20)
+    private String codigo;
+    @Column(name = "descricao", length = 100)
     private String descricao;
-    @Column(name="valor")
-    private Double valor;
+    @Column(name = "precoPromocional")
+    private Double precoPromocional;
+    @Column(name = "promocao")
+    private Boolean promocao;
+    @Column(name = "qtdEstoque")
+    private Integer qtdEstoque;
     @Column(name = "status")
-    private Status status;
+    private Boolean status;
+    @Column(name = "titulo")
+    private String titulo;
+    @Column(name = "valor")
+    private Double valor;
+    @Column(name = "referencia")
+    private String referencia;
+    @Column(name = "destaque")
+    private Boolean destaque;
+    @ElementCollection
+    @JsonDeserialize(using = Deserializer.class)
+    private List<String> imgTopo;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonBackReference
+    private List<GruposCategoria> gruposCategorias;
+
 }
