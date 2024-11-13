@@ -20,4 +20,23 @@ public class UserService {
     public List<User> readUser() {
         return userRepository.findAll();
     }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public User login(String email, String password) {
+        User user = new User();
+        user = userRepository.findByEmail(email);
+        if(user != null) {
+            if (userRepository.findByEmail(email).getPassword().equals(password)) {
+                return user;
+            } else {
+                throw new RuntimeException("Invalid email or password");
+            }
+        } else {throw new RuntimeException("dados invalidos!") ;}
+    }
+
+
+
 }

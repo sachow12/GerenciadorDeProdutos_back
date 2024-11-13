@@ -20,8 +20,7 @@ public class GruposCategoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descricao;
-    private Long idGrupoServicoPai;
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "id_grupo_categoria_pai")
+    private GruposCategoria categoriaPai;
 }

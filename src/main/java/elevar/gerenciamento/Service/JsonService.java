@@ -8,7 +8,6 @@ import elevar.gerenciamento.Repository.ProductRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -34,7 +33,7 @@ public class JsonService {
     }
 
     public void loadProducts() throws IOException {
-        System.out.println("Iniciando carga de produtos...");
+        System.out.println("Entrei no loadProducts!");
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
@@ -45,9 +44,6 @@ public class JsonService {
         );
 
         products.forEach(product -> {
-            if (product.getGruposCategorias() != null) {
-                product.getGruposCategorias().forEach(grupoCategoria -> grupoCategoria.setProduct(product));
-            }
             if (!productRepository.existsByCodigo(product.getCodigo())) {
                 productRepository.save(product);
             }

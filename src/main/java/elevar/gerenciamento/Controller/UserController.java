@@ -12,12 +12,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/cadastro")
     public User create(@RequestBody User user) {
         return userService.createUser(user);
     }
     @GetMapping
     public List<User> read() {
         return userService.readUser();
+    }
+    @PostMapping("/login")
+    public User login(@RequestParam String email, @RequestParam String password) {
+        return userService.login(email, password);
     }
 }

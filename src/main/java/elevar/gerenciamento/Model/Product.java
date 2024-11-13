@@ -48,14 +48,9 @@ public class Product implements Serializable {
     @ElementCollection
     @JsonDeserialize(using = Deserializer.class)
     private List<String> imgTopo = new ArrayList<>();
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "tb_product_grupos_categoria",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "grupos_categoria_id")
-    )
-    private Set<GruposCategoria> gruposCategorias = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "grupo_categoria_id")
+    private GruposCategoria gruposCategorias ;
 
 
 

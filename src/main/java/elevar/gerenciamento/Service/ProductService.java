@@ -41,11 +41,6 @@ public class ProductService {
         entity.setReferencia(product.getReferencia());
         entity.setDestaque(product.getDestaque());
         entity.setImgTopo(product.getImgTopo());
-        entity.getGruposCategorias().clear();
-        if (product.getGruposCategorias() != null) {
-            entity.getGruposCategorias().addAll(product.getGruposCategorias());
-        }
-
         return productRepository.save(entity);
     }
 
