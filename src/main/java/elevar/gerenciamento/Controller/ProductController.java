@@ -5,6 +5,7 @@ import elevar.gerenciamento.Repository.ProductRepository;
 import elevar.gerenciamento.Service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,5 +55,10 @@ public class ProductController {
         return productService.filterProducts(
                 codigo, descricao, precoPromocional, promocao, qtdEstoque, status,
                 titulo, valor, referencia, destaque, imgTopo, pageable);
+    }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Product> findById(@PathVariable Long id){
+        Product product = productService.findById(id);
+        return ResponseEntity.ok().body(product);
     }
 }

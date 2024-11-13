@@ -1,5 +1,5 @@
 package elevar.gerenciamento.Model;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import elevar.gerenciamento.Deserializer.Deserializer;
 import jakarta.persistence.*;
@@ -8,7 +8,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -44,9 +47,16 @@ public class Product implements Serializable {
     private Boolean destaque;
     @ElementCollection
     @JsonDeserialize(using = Deserializer.class)
-    private List<String> imgTopo;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JsonBackReference
-    private List<GruposCategoria> gruposCategorias;
+    private List<String> imgTopo = new ArrayList<>();
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "tb_product_grupos_categoria",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "grupos_categoria_id")
+    )
+    private Set<GruposCategoria> gruposCategorias = new HashSet<>();
+
+
 
 }
